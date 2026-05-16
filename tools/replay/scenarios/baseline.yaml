@@ -1,0 +1,217 @@
+# Functional contract tests — every endpoint + every negative case.
+# Run with: python main.py validate --base-url http://localhost:8080
+
+scenarios:
+  # ── ops endpoints ──────────────────────────────────────────────────────────
+  - name: healthz
+    method: GET
+    path: /healthz
+    expect:
+      status: 200
+      body_contains: pass
+
+  - name: readyz
+    method: GET
+    path: /readyz
+    expect:
+      status: 200
+
+  - name: version-format
+    method: GET
+    path: /version
+    expect:
+      status: 200
+      content_type_prefix: text/plain
+
+  - name: root-redirect
+    method: GET
+    path: /
+    follow_redirects: false
+    expect:
+      status: 302
+
+  - name: swagger-ui
+    method: GET
+    path: /swagger
+    expect:
+      status: 200
+      content_type_prefix: text/html
+
+  - name: swagger-json
+    method: GET
+    path: /swagger/v1/swagger.json
+    expect:
+      status: 200
+      json_path: "$.openapi"
+      json_value_prefix: "3."
+
+  - name: metrics-endpoint
+    method: GET
+    path: /metrics
+    expect:
+      status: 200
+      body_contains: movies_http_requests_total
+
+  # ── /api/movies ────────────────────────────────────────────────────────────
+  - name: movies-list
+    method: GET
+    path: /api/movies
+    expect:
+      status: 200
+      json_path: "$.pageNumber"
+      json_value: 1
+
+  - name: movies-list-pagination
+    method: GET
+    path: /api/movies?pageSize=5&pageNumber=1
+    expect:
+      status: 200
+      json_path: "$.pageSize"
+      json_value: 5
+
+  - name: movies-list-q
+    method: GET
+    path: /api/movies?q=ring
+    expect:
+      status: 200
+
+  - name: movies-list-genre
+    method: GET
+    path: /api/movies?genre=Drama
+    expect:
+      status: 200
+
+  - name: movies-list-year
+    method: GET
+    path: /api/movies?year=2001
+    expect:
+      status: 200
+
+  - name: movies-list-rating
+    method: GET
+    path: /api/movies?rating=8.0
+    expect:
+      status: 200
+
+  - name: movies-get-known
+    method: GET
+    path: /api/movies/tt0120737
+    expect:
+      status: 200
+      json_path: "$.id"
+      json_value: tt0120737
+
+  - name: movies-get-not-found
+    method: GET
+    path: /api/movies/tt9999999
+    expect:
+      status: 404
+
+  # ── /api/movies — 400 validation ────────────────────────────────────
+  - name: movies-q-too-short
+    method: GET
+    path: /api/movies?q=x
+    expect:
+      status: 400
+
+  - name: movies-q-too-long
+    method: GET
+    path: /api/movies?q=aaaaaaaaaaaaaaaaaaaaa
+    expect:
+      status: 400
+
+  - name: movies-page-number-zero
+    method: GET
+    path: /api/movies?pageNumber=0
+    expect:
+      status: 400
+
+  - name: movies-page-number-over-limit
+    method: GET
+    path: /api/movies?pageNumber=10001
+    expect:
+      status: 400
+
+  - name: movies-page-size-zero
+    method: GET
+    path: /api/movies?pageSize=0
+    expect:
+      status: 400
+
+  - name: movies-page-size-over-limit
+    method: GET
+    path: /api/movies?pageSize=1001
+    expect:
+      status: 400
+
+  - name: movies-bad-id-format
+    method: GET
+    path: /api/movies/badid
+    expect:
+      status: 400
+
+  - name: movies-invalid-actor-id
+    method: GET
+    path: /api/movies?actorId=invalid
+    expect:
+      status: 400
+
+  # ── /api/actors ────────────────────────────────────────────────────────────
+  - name: actors-list
+    method: GET
+    path: /api/actors
+    expect:
+      status: 200
+      json_path: "$.pageNumber"
+      json_value: 1
+
+  - name: actors-list-q
+    method: GET
+    path: /api/actors?q=wood
+    expect:
+      status: 200
+
+  - name: actors-get-known
+    method: GET
+    path: /api/actors/nm0000704
+    expect:
+      status: 200
+      json_path: "$.id"
+      json_value: nm0000704
+
+  - name: actors-get-not-found
+    method: GET
+    path: /api/actors/nm9999999
+    expect:
+      status: 404
+
+  - name: actors-bad-id-format
+    method: GET
+    path: /api/actors/badid
+    expect:
+      status: 400
+
+  - name: actors-q-too-short
+    method: GET
+    path: /api/actors?q=x
+    expect:
+      status: 400
+
+  - name: actors-q-too-long
+    method: GET
+    path: /api/actors?q=aaaaaaaaaaaaaaaaaaaaa
+    expect:
+      status: 400
+
+  - name: actors-page-size-over-limit
+    method: GET
+    path: /api/actors?pageSize=1001
+    expect:
+      status: 400
+
+  # ── /api/genres ────────────────────────────────────────────────────────────
+  - name: genres-list
+    method: GET
+    path: /api/genres
+    expect:
+      status: 200

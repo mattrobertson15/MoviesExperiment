@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: movies-api
+  namespace: movies
+spec:
+  podSelector:
+    matchLabels:
+      app: movies-api
+  policyTypes:
+    - Ingress
+  ingress:
+    # Allow traffic from ingress controller (traefik on k3s, ingress-nginx elsewhere)
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+      ports:
+        - port: 8080
+          protocol: TCP
+    # Allow Prometheus scraping from monitoring namespace
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+      ports:
+        - port: 8080
+          protocol: TCP
+    # Allow same-namespace access (replay tool, integration tests)
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: movies
+      ports:
+        - port: 8080
+          protocol: TCP

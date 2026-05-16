@@ -1,0 +1,130 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-movies
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  movies-api.json: |
+    {
+      "title": "Movies API",
+      "uid": "movies-api",
+      "schemaVersion": 38,
+      "refresh": "15s",
+      "time": { "from": "now-30m", "to": "now" },
+      "tags": ["movies"],
+      "panels": [
+        {
+          "id": 1,
+          "title": "Request Rate (RPS)",
+          "type": "timeseries",
+          "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+          "targets": [
+            {
+              "expr": "sum(rate(movies_http_requests_total[1m])) by (path)",
+              "legendFormat": "{{path}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "reqps" }
+          }
+        },
+        {
+          "id": 2,
+          "title": "Error Rate",
+          "type": "timeseries",
+          "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+          "targets": [
+            {
+              "expr": "(sum(rate(movies_http_requests_total{status_code=~\"5..\"}[1m])) or vector(0)) / sum(rate(movies_http_requests_total[1m]))",
+              "legendFormat": "error rate"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "percentunit", "max": 1, "min": 0 }
+          }
+        },
+        {
+          "id": 3,
+          "title": "p95 Latency by Endpoint",
+          "type": "timeseries",
+          "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, sum(rate(movies_http_request_duration_seconds_bucket[1m])) by (le, path))",
+              "legendFormat": "p95 {{path}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "s" }
+          }
+        },
+        {
+          "id": 4,
+          "title": "p50 Latency by Endpoint",
+          "type": "timeseries",
+          "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.50, sum(rate(movies_http_request_duration_seconds_bucket[1m])) by (le, path))",
+              "legendFormat": "p50 {{path}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "s" }
+          }
+        },
+        {
+          "id": 5,
+          "title": "Dataset Size",
+          "type": "stat",
+          "gridPos": { "x": 0, "y": 16, "w": 6, "h": 4 },
+          "targets": [
+            {
+              "expr": "movies_data_movies_total",
+              "legendFormat": "Movies"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "title": "Actors Loaded",
+          "type": "stat",
+          "gridPos": { "x": 6, "y": 16, "w": 6, "h": 4 },
+          "targets": [
+            {
+              "expr": "movies_data_actors_total",
+              "legendFormat": "Actors"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "title": "Total Requests",
+          "type": "stat",
+          "gridPos": { "x": 12, "y": 16, "w": 6, "h": 4 },
+          "targets": [
+            {
+              "expr": "sum(movies_http_requests_total)",
+              "legendFormat": "Total"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "title": "Request Rate by Status",
+          "type": "timeseries",
+          "gridPos": { "x": 0, "y": 20, "w": 24, "h": 8 },
+          "targets": [
+            {
+              "expr": "sum(rate(movies_http_requests_total[1m])) by (status_code)",
+              "legendFormat": "{{status_code}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "reqps" }
+          }
+        }
+      ]
+    }

@@ -1,0 +1,3 @@
+# Never commit Secret manifests with plaintext credentials.
+*-secret.yaml
+*-secret-*.yaml

@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - monitoring-namespace.yaml
+  - namespace.yaml
+  # movies-api
+  - movies-api-deployment.yaml
+  - movies-api-service.yaml
+  - movies-api-ingress.yaml
+  - movies-api-servicemonitor.yaml
+  - movies-api-networkpolicy.yaml
+  # Prometheus operator resources
+  - prometheus-rbac.yaml
+  - prometheus-cr.yaml
+  # Grafana
+  - grafana-datasource-configmap.yaml
+  - grafana-dashboards-provider-configmap.yaml
+  - grafana-dashboard-configmap.yaml
+  - grafana-deployment.yaml

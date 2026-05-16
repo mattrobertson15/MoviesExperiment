@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+  # grafana-admin Secret is NOT in the repo.
+  # Create it manually before deploying (see IMPLEMENTATION.md § One-time cluster setup).
+
+images:
+  - name: movies-api
+    newName: movies-api
+    newTag: dev
+
+patches:
+  # Use latest image pull policy for local dev (image loaded via k3d image import)
+  - patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/imagePullPolicy
+        value: Never
+    target:
+      kind: Deployment
+      name: movies-api
+  # Bump log level to debug in dev
+  - patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/env/1/value
+        value: debug
+    target:
+      kind: Deployment
+      name: movies-api

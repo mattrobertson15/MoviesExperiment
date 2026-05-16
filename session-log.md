@@ -61,15 +61,15 @@ What I built · what I decided · what matters for next time.
 
 ---
 
-## Session 1 — [date]
+## Session 1 — [May 11]
 
 **Frame**
-- Goal:
-- Out of scope:
-- Failure condition:
+- Goal: "Choose stack + ship /version and /healthz end-to-end on local k3s, tagged 0.1.0." That is a real session — research the stack, plan the smallest end-to-end slice, fit-check it, implement, review, tag.
+- Out of scope: Other work
+- Failure condition: failed implementation
 
 **Start time:**
-
+12:35 PM 
 **RPI cycle**
 - Research:
 - Plan:

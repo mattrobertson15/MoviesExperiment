@@ -1,0 +1,46 @@
+# Benchmark — two phases run in sequence:
+#
+#   1. latency_checks: per-endpoint SLO verification at low concurrency (2 workers).
+#      Demonstrates p95 meets the spec targets for each individual endpoint.
+#
+#   2. throughput: sustained mixed load to verify 500 RPS with <1% errors.
+#
+# Run with: python main.py benchmark --base-url <url>
+#
+# Spec targets (§10.4):
+#   p95 /api/movies      < 50 ms in-cluster
+#   p95 /api/movies/{id} < 10 ms in-cluster
+#   Sustained 500 RPS,   < 1% error rate
+
+latency_checks:
+  duration_seconds: 15
+  concurrency: 2
+  targets:
+    - name: movies-list-latency
+      path: /api/movies
+      p95_target_ms: 50
+
+    - name: movies-get-by-id-latency
+      path: /api/movies/tt0120737
+      p95_target_ms: 10
+
+benchmark:
+  duration_seconds: 30
+  concurrency: 10
+  targets:
+    - name: movies-list
+      path: /api/movies
+      weight: 5
+      p95_target_ms: 50
+
+    - name: movies-get-by-id
+      path: /api/movies/tt0120737
+      weight: 3
+
+    - name: actors-list
+      path: /api/actors
+      weight: 1
+
+    - name: genres-list
+      path: /api/genres
+      weight: 1

@@ -1,0 +1,12 @@
+**/__pycache__
+**/*.pyc
+**/*.pyo
+src/.venv
+src/tests
+src/*.egg-info
+.git
+.github
+docs
+k8s
+tools
+*.md

@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: movies-api
+  namespace: movies
+  labels:
+    # Must match the Prometheus CR's serviceMonitorSelector
+    app: movies-api
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: movies-api
+  namespaceSelector:
+    matchNames:
+      - movies
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+      scrapeTimeout: 10s

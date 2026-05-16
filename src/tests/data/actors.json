@@ -1,0 +1,55 @@
+[
+	{
+		"id": "nm0000209",
+		"key": "nm0000209",
+		"_id": "nm0000209",
+		"type": "actor",
+		"actorId": "nm0000209",
+		"name": "Tim Robbins",
+		"birthYear": 1958,
+		"profession": ["actor", "director"],
+		"movies": [
+			{"movieId": "tt0111161", "title": "The Shawshank Redemption"}
+		]
+	},
+	{
+		"id": "nm0000151",
+		"key": "nm0000151",
+		"_id": "nm0000151",
+		"type": "actor",
+		"actorId": "nm0000151",
+		"name": "Morgan Freeman",
+		"birthYear": 1937,
+		"profession": ["actor", "producer"],
+		"movies": [
+			{"movieId": "tt0111161", "title": "The Shawshank Redemption"}
+		]
+	},
+	{
+		"id": "nm0000008",
+		"key": "nm0000008",
+		"_id": "nm0000008",
+		"type": "actor",
+		"actorId": "nm0000008",
+		"name": "Marlon Brando",
+		"birthYear": 1924,
+		"deathYear": 2004,
+		"profession": ["actor"],
+		"movies": [
+			{"movieId": "tt0068646", "title": "The Godfather"}
+		]
+	},
+	{
+		"id": "nm0000704",
+		"key": "nm0000704",
+		"_id": "nm0000704",
+		"type": "actor",
+		"actorId": "nm0000704",
+		"name": "Elijah Wood",
+		"birthYear": 1981,
+		"profession": ["actor", "producer"],
+		"movies": [
+			{"movieId": "tt0120737", "title": "The Lord of the Rings: The Fellowship of the Ring"}
+		]
+	}
+]

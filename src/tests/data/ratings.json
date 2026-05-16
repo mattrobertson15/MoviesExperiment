@@ -1,0 +1,29 @@
+[
+	{
+		"id": "tt0111161",
+		"key": "tt0111161",
+		"_id": "tt0111161",
+		"movieId": "tt0111161",
+		"type": "Rating",
+		"rating": 9.3,
+		"votes": 2700000
+	},
+	{
+		"id": "tt0068646",
+		"key": "tt0068646",
+		"_id": "tt0068646",
+		"movieId": "tt0068646",
+		"type": "Rating",
+		"rating": 9.2,
+		"votes": 1900000
+	},
+	{
+		"id": "tt0120737",
+		"key": "tt0120737",
+		"_id": "tt0120737",
+		"movieId": "tt0120737",
+		"type": "Rating",
+		"rating": 8.8,
+		"votes": 1800000
+	}
+]

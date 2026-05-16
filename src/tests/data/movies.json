@@ -1,0 +1,78 @@
+[
+	{
+		"id": "tt0111161",
+		"key": "tt0111161",
+		"_id": "tt0111161",
+		"movieId": "tt0111161",
+		"type": "movie",
+		"title": "The Shawshank Redemption",
+		"year": 1994,
+		"runtime": 142,
+		"genres": [
+			"Drama"
+		],
+		"roles": [
+			{
+				"order": 1,
+				"actorId": "nm0000209",
+				"name": "Tim Robbins",
+				"category": "actor",
+				"characters": ["Andy Dufresne"]
+			},
+			{
+				"order": 2,
+				"actorId": "nm0000151",
+				"name": "Morgan Freeman",
+				"category": "actor",
+				"characters": ["Ellis Boyd 'Red' Redding"]
+			}
+		]
+	},
+	{
+		"id": "tt0068646",
+		"key": "tt0068646",
+		"_id": "tt0068646",
+		"movieId": "tt0068646",
+		"type": "movie",
+		"title": "The Godfather",
+		"year": 1972,
+		"runtime": 175,
+		"genres": [
+			"Crime",
+			"Drama"
+		],
+		"roles": [
+			{
+				"order": 1,
+				"actorId": "nm0000008",
+				"name": "Marlon Brando",
+				"category": "actor",
+				"characters": ["Don Vito Corleone"]
+			}
+		]
+	},
+	{
+		"id": "tt0120737",
+		"key": "tt0120737",
+		"_id": "tt0120737",
+		"movieId": "tt0120737",
+		"type": "movie",
+		"title": "The Lord of the Rings: The Fellowship of the Ring",
+		"year": 2001,
+		"runtime": 178,
+		"genres": [
+			"Adventure",
+			"Drama",
+			"Fantasy"
+		],
+		"roles": [
+			{
+				"order": 1,
+				"actorId": "nm0000704",
+				"name": "Elijah Wood",
+				"category": "actor",
+				"characters": ["Frodo"]
+			}
+		]
+	}
+]
